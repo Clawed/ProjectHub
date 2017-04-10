@@ -1,0 +1,7 @@
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\obj\Debug\ProjectHub.csprojResolveAssemblyReference.cache
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\bin\Debug\ProjectHub.exe
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\bin\Debug\ProjectHub.pdb
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\bin\Debug\MySql.Data.dll
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\bin\Debug\MySql.Data.xml
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\obj\Debug\ProjectHub.exe
+c:\users\kyle\documents\visual studio 2017\Projects\ProjectHub\ProjectHub\obj\Debug\ProjectHub.pdb
