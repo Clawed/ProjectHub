@@ -571,6 +571,8 @@
     <Compile Include="Database\Interfaces\IQueryAdapter.cs" />
     <Compile Include="Database\Interfaces\IRegularQueryAdapter.cs" />
     <Compile Include="HabboHotel\Game.cs" />
+    <Compile Include="HabboHotel\Rooms\Chat\WordFilter\WordFilter.cs" />
+    <Compile Include="HabboHotel\Rooms\Chat\WordFilter\WordFilterManager.cs" />
     <Compile Include="Net\Mus\Connection.cs" />
     <Compile Include="Net\Mus\Socket.cs" />
     <Compile Include="Program.cs" />
@@ -609,7 +611,6 @@
     <Folder Include="HabboHotel\Permissions\" />
     <Folder Include="HabboHotel\Quests\" />
     <Folder Include="HabboHotel\Rewards\" />
-    <Folder Include="HabboHotel\Rooms\" />
     <Folder Include="HabboHotel\Subscriptions\" />
     <Folder Include="HabboHotel\Support\" />
     <Folder Include="HabboHotel\Surveys\" />

@@ -16,6 +16,7 @@ namespace ProjectHub.Core
                     case "stop":
                     case "shutdown":
                         {
+                            new Logger("console", Params[0], "NULL");
                             ProjectHub.Shutdown();
                             break;
                         }
@@ -27,6 +28,7 @@ namespace ProjectHub.Core
                             Logging.WriteLine("- update_settings, reload_settings - Reloads server settings from database!", ConsoleColor.DarkMagenta);
                             Logging.WriteLine("- update_texts, reload_texts - Reloads server texts from database!", ConsoleColor.DarkMagenta);
                             Logging.WriteLine("- uptime - Shows current uptime of server!", ConsoleColor.DarkMagenta);
+                            new Logger("console", Params[0], "NULL");
                             break;
                         }
                     case "update_settings":
