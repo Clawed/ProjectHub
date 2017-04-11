@@ -60,6 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\Encryption\Crypto\Prng\ARC4.cs" />
+    <Compile Include="Communication\Encryption\Crypto\RSA\RSAKey.cs" />
+    <Compile Include="Communication\Encryption\HabboEncryptionV2.cs" />
+    <Compile Include="Communication\Encryption\KeyExchange\DiffieHellman.cs" />
+    <Compile Include="Communication\Encryption\Keys\RSAKeys.cs" />
     <Compile Include="Communication\Interfaces\IServerPacket.cs" />
     <Compile Include="Communication\Packets\Incoming\Avatar\GetWardrobeEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Avatar\SaveWardrobeOutfitEvent.cs" />
@@ -591,10 +596,6 @@
     <Compile Include="Util\UnixTimestamp.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Communication\Encryption\Crypto\Prng\" />
-    <Folder Include="Communication\Encryption\Crypto\RSA\" />
-    <Folder Include="Communication\Encryption\KeyExchange\" />
-    <Folder Include="Communication\Encryption\Keys\" />
     <Folder Include="Communication\Packets\Incoming\Rooms\Groups\" />
     <Folder Include="HabboHotel\Achievements\" />
     <Folder Include="HabboHotel\Badges\" />

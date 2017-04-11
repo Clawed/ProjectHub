@@ -2,6 +2,8 @@
 using ProjectHub.Core;
 using System.Security.Permissions;
 using System.Runtime.InteropServices;
+using System.Net;
+using System.IO;
 
 namespace ProjectHub
 {

@@ -35,7 +35,7 @@ namespace ProjectHub.Core
             try
             {
                 FileStream Writer = new FileStream(@"errors.txt", FileMode.Append, FileAccess.Write);
-                byte[] Data = Encoding.ASCII.GetBytes(Environment.NewLine + Environment.NewLine + Text);
+                byte[] Data = Encoding.ASCII.GetBytes(Environment.NewLine + Text + Environment.NewLine);
                 Writer.Write(Data, 0, Data.Length);
                 Writer.Dispose();
                 WriteLine("Error occured, check errors.txt file for more information!", ConsoleColor.Red);
