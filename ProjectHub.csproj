@@ -86,6 +86,8 @@
     <Compile Include="Communication\Packets\Incoming\Catalog\PurchaseFromCatalogEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Catalog\PurchaseRoomPromotionEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\Catalog\RedeemVoucherEvent.cs" />
+    <Compile Include="Communication\Packets\Incoming\ClientPacket.cs" />
+    <Compile Include="Communication\Packets\Incoming\ClientPacketHeader.cs" />
     <Compile Include="Communication\Packets\Incoming\GameCenter\Game2GetWeeklyLeaderboardEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\GameCenter\GetGameListingEvent.cs" />
     <Compile Include="Communication\Packets\Incoming\GameCenter\GetPlayableGamesEvent.cs" />
@@ -561,6 +563,14 @@
     <Compile Include="Communication\Packets\Outgoing\Users\UpdateUsernameComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Users\UserTagsComposer.cs" />
     <Compile Include="Communication\Packets\PacketManager.cs" />
+    <Compile Include="Core\Connections\ConnectionInformation.cs" />
+    <Compile Include="Core\Connections\ConnectionManager.cs" />
+    <Compile Include="Core\Connections\ConnectionState.cs" />
+    <Compile Include="Core\Connections\SocketManager.cs" />
+    <Compile Include="Core\Connections\SocketManagerStatics.cs" />
+    <Compile Include="Core\Connections\IDataParser.cs" />
+    <Compile Include="HabboHotel\GameClients\GameClient.cs" />
+    <Compile Include="HabboHotel\GameClients\GameClientManager.cs" />
     <Compile Include="HabboHotel\GameCycle.cs" />
     <Compile Include="Core\ServerStatusUpdater.cs" />
     <Compile Include="Core\ConfigurationData.cs" />
@@ -579,6 +589,8 @@
     <Compile Include="HabboHotel\Game.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\WordFilter\WordFilter.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\WordFilter\WordFilterManager.cs" />
+    <Compile Include="Net\GamePacketParser.cs" />
+    <Compile Include="Net\InitialPacketParser.cs" />
     <Compile Include="Net\Mus\Connection.cs" />
     <Compile Include="Net\Mus\Socket.cs" />
     <Compile Include="Program.cs" />
@@ -603,7 +615,6 @@
     <Folder Include="HabboHotel\Bots\" />
     <Folder Include="HabboHotel\Cache\" />
     <Folder Include="HabboHotel\Catalog\" />
-    <Folder Include="HabboHotel\GameClients\" />
     <Folder Include="HabboHotel\Games\" />
     <Folder Include="HabboHotel\Groups\" />
     <Folder Include="HabboHotel\Items\" />
@@ -631,7 +642,6 @@
     <Folder Include="HabboHotel\Users\Process\" />
     <Folder Include="HabboHotel\Users\Relationships\" />
     <Folder Include="HabboHotel\Users\UserData\" />
-    <Folder Include="Net\Game\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />

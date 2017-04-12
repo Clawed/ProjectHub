@@ -1,10 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
+using ProjectHub.Communication.Encryption;
+using ProjectHub.Communication.Encryption.Keys;
 using ProjectHub.Core;
+using ProjectHub.Core.Connections;
 using ProjectHub.Database;
 using ProjectHub.HabboHotel;
 using ProjectHub.Net.Mus;
 using System;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 
 namespace ProjectHub
@@ -15,9 +19,11 @@ namespace ProjectHub
         public const string EmuVersion = "0.0.5";
         public const int EmuBuild = 137;
         public static string DbPrefix = "server_";
+        public static string SWFRevision = "";
 
         public static DateTime ServerStarted;
         public static CultureInfo CultureInfo;
+        private static Encoding DefaultEncoding;
 
         public static ConfigurationData ConfigurationData;
         private static DatabaseManager DatabaseManager;
@@ -28,6 +34,7 @@ namespace ProjectHub
         private static ServerStatusUpdater ServerStatusUpdater;
         public static Game Game;
         public static GameCycle GameCycle;
+        private static ConnectionManager ConnectionManager;
 
         public static string PrettyVersion
         {
@@ -39,8 +46,9 @@ namespace ProjectHub
 
         public void Initialize()
         {
-            CultureInfo = CultureInfo.CreateSpecificCulture("en-GB");
             ServerStarted = DateTime.Now;
+            CultureInfo = CultureInfo.CreateSpecificCulture("en-GB");
+            DefaultEncoding = Encoding.Default;
 
             Console.Title = "Loading " + PrettyVersion;
             Console.ForegroundColor = ConsoleColor.White;
@@ -62,10 +70,14 @@ namespace ProjectHub
                 LoadDatabase();
                 LoadSettings();
                 LoadTexts();
+
+                Game = new Game();
+                HabboEncryptionV2.Initialize(new RSAKeys());
+
+                LoadConnections();
                 LoadMus();
                 LoadServerStatusUpdater();
 
-                Game = new Game();
                 GameCycle = new GameCycle();
                 GameCycle.StartLoop();
 
@@ -204,6 +216,28 @@ namespace ProjectHub
             }
         }
 
+        public static void LoadConnections()
+        {
+            Logging.Write("Listening for connections on (" + GetSettingsData().Data["game.ip"] + ":" + GetSettingsData().Data["game.port"] + ")");
+
+            try
+            {
+                ConnectionManager = new ConnectionManager(int.Parse(GetSettingsData().Data["game.port"]), int.Parse(GetSettingsData().Data["game.con.limit"]), int.Parse(GetSettingsData().Data["game.con.perip"]), true);
+                ConnectionManager.Init();
+                Logging.WriteSimpleLine(" - Completed!");
+            }
+            catch (Exception Error)
+            {
+                Logging.WriteSimpleLine(" - Incomplete!");
+                Logging.LogError(Error.ToString());
+                Logging.WriteLine("Could not load connection socket!", ConsoleColor.Red);
+                Logging.WriteLine("Press any key to shut down ...", ConsoleColor.Red);
+                Console.ReadKey(true);
+                Environment.Exit(1);
+                return;
+            }
+        }
+
         public static void LoadMus()
         {
             Logging.Write("Listening for MUS connections on (" + GetSettingsData().Data["mus.ip"] + ":" + GetSettingsData().Data["mus.port"] + ")");
@@ -217,7 +251,7 @@ namespace ProjectHub
             {
                 Logging.WriteSimpleLine(" - Incomplete!");
                 Logging.LogError(Error.ToString());
-                Logging.WriteLine("Could not load server settings!", ConsoleColor.Red);
+                Logging.WriteLine("Could not load mus socket!", ConsoleColor.Red);
                 Logging.WriteLine("Press any key to shut down ...", ConsoleColor.Red);
                 Console.ReadKey(true);
                 Environment.Exit(1);
@@ -259,6 +293,16 @@ namespace ProjectHub
         public static DatabaseManager GetDatabaseManager()
         {
             return DatabaseManager;
+        }
+
+        public static Encoding GetDefaultEncoding()
+        {
+            return DefaultEncoding;
+        }
+
+        public static ConnectionManager GetConnectionManager()
+        {
+            return ConnectionManager;
         }
 
         public static Game GetGame()
