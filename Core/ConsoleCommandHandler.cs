@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectHub.HabboHotel.Rooms.Chat.WordFilter;
+using System;
 
 namespace ProjectHub.Core
 {
@@ -27,6 +28,7 @@ namespace ProjectHub.Core
                             Logging.WriteLine("- close, stop, shutdown - Shuts down server securely!", ConsoleColor.DarkMagenta);
                             Logging.WriteLine("- update_settings, reload_settings - Reloads server settings from database!", ConsoleColor.DarkMagenta);
                             Logging.WriteLine("- update_texts, reload_texts - Reloads server texts from database!", ConsoleColor.DarkMagenta);
+                            Logging.WriteLine("- update_wordfilter, reload_wordfilter - Reloads wordfilter from database!", ConsoleColor.DarkMagenta);
                             Logging.WriteLine("- uptime - Shows current uptime of server!", ConsoleColor.DarkMagenta);
                             new Logger("console", Params[0], "NULL");
                             break;
@@ -45,6 +47,15 @@ namespace ProjectHub.Core
                         {
                             Logging.Write("Updating server texts", ConsoleColor.DarkMagenta);
                             ProjectHub.TextsData = new TextsData();
+                            new Logger("console", Params[0], "NULL");
+                            Logging.WriteSimpleLine(" - Completed!", ConsoleColor.DarkMagenta);
+                            break;
+                        }
+                    case "update_wordfilter":
+                    case "reload_wordfilter":
+                        {
+                            Logging.Write("Updating wordfilter", ConsoleColor.DarkMagenta);
+                            ProjectHub.GetGame().GetWordFilterManager();
                             new Logger("console", Params[0], "NULL");
                             Logging.WriteSimpleLine(" - Completed!", ConsoleColor.DarkMagenta);
                             break;

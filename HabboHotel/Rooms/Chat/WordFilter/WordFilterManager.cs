@@ -7,7 +7,7 @@ using System;
 
 namespace ProjectHub.HabboHotel.Rooms.Chat.WordFilter
 {
-    public sealed class WordFilterManager
+    public class WordFilterManager
     {
         private List<WordFilter> FilteredWords;
 
@@ -39,7 +39,7 @@ namespace ProjectHub.HabboHotel.Rooms.Chat.WordFilter
 
         public string CheckMessage(string Message)
         {
-            foreach (WordFilter Filter in this.FilteredWords.ToList())
+            foreach (WordFilter Filter in FilteredWords.ToList())
             {
                 if (Message.ToLower().Contains(Filter.GetWord) && Filter.GetStrict || Message == Filter.GetWord)
                 {
@@ -71,7 +71,7 @@ namespace ProjectHub.HabboHotel.Rooms.Chat.WordFilter
         {
             Message = Message.Replace(" ", "").Replace(".", "").Replace("_", "").ToLower();
 
-            foreach (WordFilter Filter in this.FilteredWords.ToList())
+            foreach (WordFilter Filter in FilteredWords.ToList())
             {
                 if (!Filter.GetBannable)
                 {
@@ -89,7 +89,7 @@ namespace ProjectHub.HabboHotel.Rooms.Chat.WordFilter
 
         public bool IsFiltered(string Message)
         {
-            foreach (WordFilter Filter in this.FilteredWords.ToList())
+            foreach (WordFilter Filter in FilteredWords.ToList())
             {
                 if (Message.Contains(Filter.GetWord))
                 {

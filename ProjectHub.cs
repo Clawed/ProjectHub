@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using ProjectHub.Core;
 using ProjectHub.Database;
+using ProjectHub.HabboHotel;
 using ProjectHub.Net.Mus;
 using System;
 using System.Globalization;
@@ -16,6 +17,7 @@ namespace ProjectHub
         public static string DbPrefix = "server_";
 
         public static DateTime ServerStarted;
+        public static CultureInfo CultureInfo;
 
         public static ConfigurationData ConfigurationData;
         private static DatabaseManager DatabaseManager;
@@ -24,8 +26,8 @@ namespace ProjectHub
         public static MusSocket MusSocket;
 
         private static ServerStatusUpdater ServerStatusUpdater;
-
-        public static CultureInfo CultureInfo;
+        public static Game Game;
+        public static GameCycle GameCycle;
 
         public static string PrettyVersion
         {
@@ -62,6 +64,10 @@ namespace ProjectHub
                 LoadTexts();
                 LoadMus();
                 LoadServerStatusUpdater();
+
+                Game = new Game();
+                GameCycle = new GameCycle();
+                GameCycle.StartLoop();
 
                 TimeSpan TimeUsed = DateTime.Now - ServerStarted;
                 Logging.WriteLine(EmuName + " loaded (" + TimeUsed.Seconds + " s, " + TimeUsed.Milliseconds + " ms)");
@@ -253,6 +259,11 @@ namespace ProjectHub
         public static DatabaseManager GetDatabaseManager()
         {
             return DatabaseManager;
+        }
+
+        public static Game GetGame()
+        {
+            return Game;
         }
 
         public static double GetUnixTimestamp()

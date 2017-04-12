@@ -561,6 +561,7 @@
     <Compile Include="Communication\Packets\Outgoing\Users\UpdateUsernameComposer.cs" />
     <Compile Include="Communication\Packets\Outgoing\Users\UserTagsComposer.cs" />
     <Compile Include="Communication\Packets\PacketManager.cs" />
+    <Compile Include="HabboHotel\GameCycle.cs" />
     <Compile Include="Core\ServerStatusUpdater.cs" />
     <Compile Include="Core\ConfigurationData.cs" />
     <Compile Include="Core\ConsoleCommandHandler.cs" />
