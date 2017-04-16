@@ -9,75 +9,77 @@ namespace ProjectHub.Net
 {
     public class GamePacketParser : IDataParser
     {
-        public delegate void HandlePacket(ClientPacket message);
-        private readonly GameClient currentClient;
-        private ConnectionInformation con;
-        private bool _halfDataRecieved = false;
-        private byte[] _halfData = null;
-        private bool _deciphered = false;
+        public delegate void HandlePacket(ClientPacket Message);
+        private readonly GameClient CurrentClient;
+        private ConnectionInformation Con;
+        private bool HalfDataRecieved = false;
+        private byte[] HalfData = null;
+        private bool Deciphered = false;
 
-        public GamePacketParser(GameClient me)
+        public GamePacketParser(GameClient Me)
         {
-            currentClient = me;
+            CurrentClient = Me;
         }
 
         public void HandlePacketData(byte[] Data)
         {
             try
             {
-                if (this.currentClient.RC4Client != null && !this._deciphered)
+                if (CurrentClient.RC4Client != null && !Deciphered)
                 {
-                    this.currentClient.RC4Client.Decrypt(ref Data);
-                    this._deciphered = true;
+                    CurrentClient.RC4Client.Decrypt(ref Data);
+                    Deciphered = true;
                 }
 
-                if (this._halfDataRecieved)
+                if (HalfDataRecieved)
                 {
-                    byte[] FullDataRcv = new byte[this._halfData.Length + Data.Length];
-                    Buffer.BlockCopy(this._halfData, 0, FullDataRcv, 0, this._halfData.Length);
-                    Buffer.BlockCopy(Data, 0, FullDataRcv, this._halfData.Length, Data.Length);
+                    byte[] FullDataRcv = new byte[HalfData.Length + Data.Length];
+                    Buffer.BlockCopy(HalfData, 0, FullDataRcv, 0, HalfData.Length);
+                    Buffer.BlockCopy(Data, 0, FullDataRcv, HalfData.Length, Data.Length);
+                    HalfDataRecieved = false;
+                    HandlePacketData(FullDataRcv);
 
-                    this._halfDataRecieved = false; // mark done this round
-                    HandlePacketData(FullDataRcv); // repeat now we have the combined array
                     return;
                 }
 
                 using (BinaryReader Reader = new BinaryReader(new MemoryStream(Data)))
                 {
                     if (Data.Length < 4)
-                        return;
-
-                    int MsgLen = HabboEncoding.DecodeInt32(Reader.ReadBytes(4));
-                    if ((Reader.BaseStream.Length - 4) < MsgLen)
                     {
-                        this._halfData = Data;
-                        this._halfDataRecieved = true;
                         return;
                     }
-                    else if (MsgLen < 0 || MsgLen > 5120)//TODO: Const somewhere.
+
+                    int MsgLen = HabboEncoding.DecodeInt32(Reader.ReadBytes(4));
+
+                    if ((Reader.BaseStream.Length - 4) < MsgLen)
+                    {
+                        HalfData = Data;
+                        HalfDataRecieved = true;
+
                         return;
+                    }
+                    else if (MsgLen < 0 || MsgLen > 5120)
+                    {
+                        return;
+                    }
 
                     byte[] Packet = Reader.ReadBytes(MsgLen);
 
                     using (BinaryReader R = new BinaryReader(new MemoryStream(Packet)))
                     {
                         int Header = HabboEncoding.DecodeInt16(R.ReadBytes(2));
-
                         byte[] Content = new byte[Packet.Length - 2];
                         Buffer.BlockCopy(Packet, 2, Content, 0, Packet.Length - 2);
-
                         ClientPacket Message = new ClientPacket(Header, Content);
-                        onNewPacket.Invoke(Message);
-                     
-                        this._deciphered = false;
+                        OnNewPacket.Invoke(Message);
+                        Deciphered = false;
                     }
 
                     if (Reader.BaseStream.Length - 4 > MsgLen)
                     {
                         byte[] Extra = new byte[Reader.BaseStream.Length - Reader.BaseStream.Position];
                         Buffer.BlockCopy(Data, (int)Reader.BaseStream.Position, Extra, 0, (int)(Reader.BaseStream.Length - Reader.BaseStream.Position));
-
-                        this._deciphered = true;
+                        Deciphered = true;
                         HandlePacketData(Extra);
                     }
                 }
@@ -90,21 +92,21 @@ namespace ProjectHub.Net
 
         public void Dispose()
         {
-            onNewPacket = null;
+            OnNewPacket = null;
             GC.SuppressFinalize(this);
         }
 
         public object Clone()
         {
-            return new GamePacketParser(currentClient);
+            return new GamePacketParser(CurrentClient);
         }
 
-        public event HandlePacket onNewPacket;
+        public event HandlePacket OnNewPacket;
 
-        public void SetConnection(ConnectionInformation con)
+        public void SetConnection(ConnectionInformation _Con)
         {
-            this.con = con;
-            onNewPacket = null;
+            Con = _Con;
+            OnNewPacket = null;
         }
     }
 }

@@ -5,8 +5,11 @@ using ProjectHub.Core;
 using ProjectHub.Core.Connections;
 using ProjectHub.Database;
 using ProjectHub.HabboHotel;
+using ProjectHub.HabboHotel.Users;
 using ProjectHub.Net.Mus;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading;
@@ -36,6 +39,10 @@ namespace ProjectHub
         public static GameCycle GameCycle;
         private static ConnectionManager ConnectionManager;
 
+        private static ConcurrentDictionary<int, Habbo> UsersCached = new ConcurrentDictionary<int, Habbo>();
+
+        private static readonly List<char> AllowedChars = new List<char>(new[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '.'});
+
         public static string PrettyVersion
         {
             get
@@ -49,20 +56,7 @@ namespace ProjectHub
             ServerStarted = DateTime.Now;
             CultureInfo = CultureInfo.CreateSpecificCulture("en-GB");
             DefaultEncoding = Encoding.Default;
-
-            Console.Title = "Loading " + PrettyVersion;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine();
-            Console.WriteLine("                     _   _       _     _____");
-            Console.WriteLine("                    | | | |     | |   |  ___|");
-            Console.WriteLine("                    | |_| |_   _| |___| |_   _________ _   _");
-            Console.WriteLine("                    |  _  | | | |  _  |  _| |  _   _  | | | |");
-            Console.WriteLine("                    | | | | |_| | |_| | |___| | | | | | |_| |");
-            Console.WriteLine("                    |_| |_|_____|_____|_____|_| |_| |_|_____|");
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("                                       " + PrettyVersion);
-            Console.WriteLine();
+            Header("Loading " + PrettyVersion);
 
             try
             {
@@ -315,10 +309,45 @@ namespace ProjectHub
             return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
         }
 
-        public static void Shutdown()
+        private static bool IsValid(char Character)
+        {
+            return AllowedChars.Contains(Character);
+        }
+
+        public static bool IsValidAlphaNumeric(string InputStr)
+        {
+            InputStr = InputStr.ToLower();
+
+            if (string.IsNullOrEmpty(InputStr))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < InputStr.Length; i++)
+            {
+                if (!IsValid(InputStr[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static ICollection<Habbo> GetUsersCached()
+        {
+            return UsersCached.Values;
+        }
+
+        public static bool RemoveFromCache(int Id, out Habbo Data)
+        {
+            return UsersCached.TryRemove(Id, out Data);
+        }
+
+        public static void Header(string Title)
         {
             Console.Clear();
-            Console.Title = "Closing down " + PrettyVersion;
+            Console.Title = Title;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
             Console.WriteLine("                     _   _       _     _____");
@@ -331,7 +360,11 @@ namespace ProjectHub
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("                                       " + PrettyVersion);
             Console.WriteLine();
+        }
 
+        public static void Shutdown()
+        {
+            Header("Closing down " + PrettyVersion);
             Logging.WriteLine("Perfroming secure shutdown.");
             Logging.WriteLine("Saving all cached data.");
 

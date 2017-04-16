@@ -569,6 +569,31 @@
     <Compile Include="Core\Connections\SocketManager.cs" />
     <Compile Include="Core\Connections\SocketManagerStatics.cs" />
     <Compile Include="Core\Connections\IDataParser.cs" />
+    <Compile Include="HabboHotel\Achievements\AchievementManager.cs" />
+    <Compile Include="HabboHotel\Achievements\Achievement.cs" />
+    <Compile Include="HabboHotel\Achievements\AchievementLevel.cs" />
+    <Compile Include="HabboHotel\Achievements\AchievementLevelFactory.cs" />
+    <Compile Include="HabboHotel\Achievements\UserAchievement.cs" />
+    <Compile Include="HabboHotel\Badges\BadgeDefinition.cs" />
+    <Compile Include="HabboHotel\Badges\BadgeManager.cs" />
+    <Compile Include="HabboHotel\Bots\BotManager.cs" />
+    <Compile Include="HabboHotel\Cache\CacheManager.cs" />
+    <Compile Include="HabboHotel\Cache\ProcessComponent.cs" />
+    <Compile Include="HabboHotel\Cache\UserCache.cs" />
+    <Compile Include="HabboHotel\Catalog\CatalogManager.cs" />
+    <Compile Include="HabboHotel\Catalog\Clothing\ClothingItem.cs" />
+    <Compile Include="HabboHotel\Catalog\Clothing\ClothingManager.cs" />
+    <Compile Include="HabboHotel\Catalog\Marketplace\MarketOffer.cs" />
+    <Compile Include="HabboHotel\Catalog\Marketplace\MarketplaceManager.cs" />
+    <Compile Include="HabboHotel\Catalog\Pets\PetRace.cs" />
+    <Compile Include="HabboHotel\Catalog\Pets\PetRaceManager.cs" />
+    <Compile Include="HabboHotel\Catalog\Utilities\BotUtility.cs" />
+    <Compile Include="HabboHotel\Catalog\Utilities\ItemUtility.cs" />
+    <Compile Include="HabboHotel\Catalog\Utilities\PetUtility.cs" />
+    <Compile Include="HabboHotel\Catalog\Vouchers\Voucher.cs" />
+    <Compile Include="HabboHotel\Catalog\Vouchers\VoucherManager.cs" />
+    <Compile Include="HabboHotel\Catalog\Vouchers\VoucherType.cs" />
+    <Compile Include="HabboHotel\Catalog\Vouchers\VoucherUtility.cs" />
     <Compile Include="HabboHotel\GameClients\GameClient.cs" />
     <Compile Include="HabboHotel\GameClients\GameClientManager.cs" />
     <Compile Include="HabboHotel\GameCycle.cs" />
@@ -589,6 +614,7 @@
     <Compile Include="HabboHotel\Game.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\WordFilter\WordFilter.cs" />
     <Compile Include="HabboHotel\Rooms\Chat\WordFilter\WordFilterManager.cs" />
+    <Compile Include="HabboHotel\Users\Habbo.cs" />
     <Compile Include="Net\GamePacketParser.cs" />
     <Compile Include="Net\InitialPacketParser.cs" />
     <Compile Include="Net\Mus\Connection.cs" />
@@ -610,11 +636,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Communication\Packets\Incoming\Rooms\Groups\" />
-    <Folder Include="HabboHotel\Achievements\" />
-    <Folder Include="HabboHotel\Badges\" />
-    <Folder Include="HabboHotel\Bots\" />
-    <Folder Include="HabboHotel\Cache\" />
-    <Folder Include="HabboHotel\Catalog\" />
     <Folder Include="HabboHotel\Games\" />
     <Folder Include="HabboHotel\Groups\" />
     <Folder Include="HabboHotel\Items\" />
